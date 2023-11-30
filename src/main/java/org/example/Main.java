@@ -1,0 +1,270 @@
+package org.example;
+
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.awt.*;
+import java.awt.Font;
+import java.io.*;
+
+import static java.awt.Color.orange;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        //creating an instance of Workbook class
+        XSSFWorkbook wb = new XSSFWorkbook();
+        //creates an excel file at the specified location
+        OutputStream fileOut = new FileOutputStream("BankStatement.xlsx");
+        XSSFSheet sheet = wb.createSheet("krishi");
+        sheet.setDisplayGridlines(false);
+        image(wb,sheet);
+        heading(wb,sheet);
+        subject(wb,sheet);
+        entrycolumn(wb,sheet);
+        data(wb,sheet);
+        System.out.println("Excel File has been created successfully.");
+        System.out.println("Hello world!");
+        wb.write(fileOut);
+//        fileOut.close();
+//        wb.close();
+    }
+    public static void image(XSSFWorkbook wb,XSSFSheet sheet) throws IOException {
+        InputStream inputStream =new FileInputStream("C:\\Users\\UNDERWORLD\\Desktop\\ducks.jpg");
+        byte[] bytes= IOUtils.toByteArray(inputStream);
+        int pictureIdx = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
+        inputStream.close();
+        CreationHelper helper = wb.getCreationHelper();
+        Drawing drawing = sheet.createDrawingPatriarch();
+        ClientAnchor anchor = helper.createClientAnchor();
+        anchor.setCol1(0); //Column B
+        anchor.setRow1(1); //Row 3
+        anchor.setCol2(1);
+        anchor.setRow2(4);
+        Picture pict = drawing.createPicture(anchor, pictureIdx);
+        Cell cell = sheet.createRow(2).createCell(1);
+        sheet.addMergedRegion(new CellRangeAddress(1,3,0,0));
+    }
+
+    public static void heading(XSSFWorkbook wb,XSSFSheet sheet){
+        CellStyle cellStyle=wb.createCellStyle();
+        XSSFFont font=wb.createFont();
+        font.setBold(true);
+        font.setFontHeight(14);
+        font.setFontName("Arial");
+        cellStyle.setFont(font);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        Row row=sheet.createRow(1);
+        Cell cell1=row.createCell(1);
+        cell1.setCellValue("Krishiacharya Technologies Private Limited");
+        cell1.setCellStyle(cellStyle);
+        sheet.addMergedRegion(new CellRangeAddress(1,2,1,10));
+        Row row1=sheet.createRow(3);
+        Cell cell=row1.createCell(4);
+        CellStyle cellStyle1=wb.createCellStyle();
+        cellStyle1.setAlignment(HorizontalAlignment.CENTER);
+        cell.setCellValue("E-Mail : invoice@bijak.in");
+        cell.setCellStyle(cellStyle1);
+        sheet.addMergedRegion(new CellRangeAddress(3,3,4,6));
+    }
+
+    public static void subject(XSSFWorkbook wb,XSSFSheet sheet){
+        Row row=sheet.createRow(6);
+        Cell cell=row.createCell(0);
+        cell.setCellValue("Party : Manish Agrotech Limited");
+        sheet.addMergedRegion(new CellRangeAddress(6,6,0,10));
+    }
+
+    public static void entrycolumn(XSSFWorkbook wb,XSSFSheet sheet){
+        CellStyle cellStyle= wb.createCellStyle();
+        cellStyle.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex());
+        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
+        cellStyle.setBorderTop(BorderStyle.THIN);
+        Row row=sheet.createRow(8);
+        Cell cell=row.createCell(1);
+        cell.setCellValue("Buyer Invoice");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(2);
+        cell.setCellValue("Vehicle Number");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(3);
+        cell.setCellValue("GRN Qty(Kg)");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(4);
+        cell.setCellValue("Debit Note(CA)/");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(5);
+        cell.setCellValue("Final Buyer Amt");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(6);
+        cell.setCellValue("Due Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(7);
+        cell.setCellValue("Amount In");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(8);
+        cell.setCellValue("Amt in Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(9);
+        cell.setCellValue("Deducted By Buyer");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(10);
+        cell.setCellValue("Balance");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(0);
+        cell.setCellValue("");
+        cell.setCellStyle(cellStyle);
+    }
+
+    public static void data(XSSFWorkbook wb,XSSFSheet sheet){
+        CellStyle cellStyle= wb.createCellStyle();
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
+        cellStyle.setBorderTop(BorderStyle.THIN);
+        Row row=sheet.createRow(9);
+        Cell cell=row.createCell(1);
+        cell.setCellValue("Buyer Invoice");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(2);
+        cell.setCellValue("Vehicle Number");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(3);
+        cell.setCellValue("GRN Qty(Kg)");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(4);
+        cell.setCellValue("Debit Note(CA)/");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(5);
+        cell.setCellValue("Final Buyer Amt");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(6);
+        cell.setCellValue("Due Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(7);
+        cell.setCellValue("Amount In");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(8);
+        cell.setCellValue("Amt in Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(9);
+        cell.setCellValue("Deducted By Buyer");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(10);
+        cell.setCellValue("Balance");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(0);
+        cell.setCellValue("");
+        cell.setCellStyle(cellStyle);
+        row=sheet.createRow(10);
+        cell=row.createCell(1);
+        cell.setCellValue("Buyer Invoice");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(2);
+        cell.setCellValue("Vehicle Number");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(3);
+        cell.setCellValue("GRN Qty(Kg)");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(4);
+        cell.setCellValue("Debit Note(CA)/");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(5);
+        cell.setCellValue("Final Buyer Amt");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(6);
+        cell.setCellValue("Due Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(7);
+        cell.setCellValue("Amount In");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(8);
+        cell.setCellValue("Amt in Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(9);
+        cell.setCellValue("Deducted By Buyer");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(10);
+        cell.setCellValue("Balance");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(0);
+        cell.setCellValue("");
+        cell.setCellStyle(cellStyle);
+        row=sheet.createRow(9);
+        cell=row.createCell(1);
+        cell.setCellValue("Buyer Invoice");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(2);
+        cell.setCellValue("Vehicle Number");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(3);
+        cell.setCellValue("GRN Qty(Kg)");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(4);
+        cell.setCellValue("Debit Note(CA)/");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(5);
+        cell.setCellValue("Final Buyer Amt");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(6);
+        cell.setCellValue("Due Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(7);
+        cell.setCellValue("Amount In");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(8);
+        cell.setCellValue("Amt in Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(9);
+        cell.setCellValue("Deducted By Buyer");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(10);
+        cell.setCellValue("Balance");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(0);
+        cell.setCellValue("");
+        cell.setCellStyle(cellStyle);
+        row=sheet.createRow(9);
+        cell=row.createCell(1);
+        cell.setCellValue("Buyer Invoice");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(2);
+        cell.setCellValue("Vehicle Number");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(3);
+        cell.setCellValue("GRN Qty(Kg)");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(4);
+        cell.setCellValue("Debit Note(CA)/");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(5);
+        cell.setCellValue("Final Buyer Amt");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(6);
+        cell.setCellValue("Due Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(7);
+        cell.setCellValue("Amount In");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(8);
+        cell.setCellValue("Amt in Date");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(9);
+        cell.setCellValue("Deducted By Buyer");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(10);
+        cell.setCellValue("Balance");
+        cell.setCellStyle(cellStyle);
+        cell=row.createCell(0);
+        cell.setCellValue("");
+        cell.setCellStyle(cellStyle);
+    }
+}
